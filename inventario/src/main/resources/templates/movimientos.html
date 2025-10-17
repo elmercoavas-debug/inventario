@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout (~{::body})" lang="es">
+<body>
+
+<div th:fragment="contenido">
+    <h2 class="mb-3">Registro de Movimientos</h2>
+
+    <form th:action="@{/movimientos/agregar}" method="post" class="mb-4">
+        <div class="row">
+            <!-- Selección del producto -->
+            <div class="col-md-4">
+                <select class="form-select" name="producto.id" required>
+                    <option value="" disabled selected>Seleccione un producto</option>
+                    <option th:each="p : ${productos}" th:value="${p.id}" th:text="${p.nombre}"></option>
+                </select>
+            </div>
+
+            <!-- Tipo de movimiento -->
+            <div class="col-md-3">
+                <select class="form-select" name="tipo" required>
+                    <option value="ENTRADA">ENTRADA</option>
+                    <option value="SALIDA">SALIDA</option>
+                </select>
+            </div>
+
+            <!-- Cantidad -->
+            <div class="col-md-3">
+                <input class="form-control" type="number" name="cantidad" placeholder="Cantidad" required>
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-success w-100">Registrar</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Tipo</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="m : ${movimientos}">
+                <td th:text="${m.id}"></td>
+                <td th:text="${m.producto.nombre}"></td>
+                <td th:text="${m.tipo}"></td>
+                <td th:text="${m.cantidad}"></td>
+                <td th:text="${#temporals.format(m.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
